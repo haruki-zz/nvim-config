@@ -64,4 +64,44 @@ return {
     lazy = false,
     opts = {},
   },
+  {
+    "lewis6991/gitsigns.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    opts = {
+      current_line_blame = true,
+      current_line_blame_opts = {
+        delay = 500,
+      },
+      signs = {
+        add = { text = "▎" },
+        change = { text = "▎" },
+        delete = { text = "" },
+        topdelete = { text = "" },
+        changedelete = { text = "▎" },
+      },
+    },
+    keys = {
+      { "]g", function() require("gitsigns").nav_hunk("next") end, desc = "Next Git Change" },
+      { "[g", function() require("gitsigns").nav_hunk("prev") end, desc = "Previous Git Change" },
+      { "<leader>gs", function() require("gitsigns").stage_hunk() end, desc = "Stage Hunk" },
+      { "<leader>gr", function() require("gitsigns").reset_hunk() end, desc = "Reset Hunk" },
+      { "<leader>gp", function() require("gitsigns").preview_hunk_inline() end, desc = "Preview Hunk" },
+    },
+  },
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    event = { "BufReadPost", "BufNewFile" },
+    main = "ibl",
+    opts = {
+      indent = {
+        char = "│",
+        smart_indent_cap = true,
+      },
+      scope = {
+        enabled = true,
+        show_start = false,
+        highlight = { "Function", "Label" },
+      },
+    },
+  },
 }

@@ -11,6 +11,12 @@ map("n", "<C-j>", "<C-w>j", { desc = "Go to lower window", remap = true })
 map("n", "<C-k>", "<C-w>k", { desc = "Go to upper window", remap = true })
 map("n", "<C-l>", "<C-w>l", { desc = "Go to right window", remap = true })
 
+map("n", "<C-p>", "<cmd>Telescope find_files<cr>", { desc = "Quick Open" })
+map("n", "<leader><leader>", "<cmd>Telescope commands<cr>", { desc = "Command Palette" })
+map("n", "<leader>fs", "<cmd>Telescope lsp_document_symbols<cr>", { desc = "Go to Symbol" })
+map("n", "<C-b>", "<cmd>NvimTreeToggle<cr>", { desc = "Toggle Explorer" })
+map("n", "<C-S-f>", "<cmd>Telescope live_grep<cr>", { desc = "Search in Workspace" })
+
 map("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase window height" })
 map("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease window height" })
 map("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease window width" })
@@ -35,11 +41,26 @@ map("n", "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
 
 map({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save file" })
 
+local comment_api = require("Comment.api")
+map("n", "<C-/>", function()
+  comment_api.toggle.linewise.current()
+end, { desc = "Toggle Line Comment" })
+map("x", "<C-/>", function()
+  comment_api.toggle.linewise(vim.fn.visualmode())
+end, { desc = "Toggle Line Comment" })
+
 map("x", "<leader>p", [["_dP]], { desc = "Paste without overwriting clipboard" })
 
 map({ "n", "v" }, "<leader>d", [["_d]], { desc = "Delete to black hole register" })
 
-map("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>", { desc = "Tmux sessionizer" })
+map({ "n", "t" }, "<C-`>", function()
+  require("lazy.util").terminal(nil, { cwd = require("lazy.util").root() })
+end, { desc = "Toggle Terminal" })
+map({ "n", "t" }, "<C-~>", function()
+  require("lazy.util").terminal(nil, { cwd = require("lazy.util").root() })
+end, { desc = "which_key_ignore" })
+
+map("n", "<leader>ft", "<cmd>silent !tmux neww tmux-sessionizer<CR>", { desc = "Tmux sessionizer" })
 
 map("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace word under cursor" })
 
@@ -56,13 +77,6 @@ map("n", "<leader>q", "<cmd>q<cr>", { desc = "Quit" })
 map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit all" })
 
 map("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
-
-map({ "n", "t" }, "<C-/>", function()
-  require("lazy.util").terminal(nil, { cwd = require("lazy.util").root() })
-end, { desc = "Terminal (root dir)" })
-map({ "n", "t" }, "<c-_>", function()
-  require("lazy.util").terminal(nil, { cwd = require("lazy.util").root() })
-end, { desc = "which_key_ignore" })
 
 map("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
 map("t", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Go to left window" })
